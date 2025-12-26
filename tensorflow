@@ -1,0 +1,30 @@
+!pip install tensorflow tensorflow-hub tensorflow-text
+import tensorflow as tf
+import tensorflow_hub as hub
+import numpy as np
+from PIL import Image
+
+# Load the model
+# model = hub.load("https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1/256_2")  # This model is for image stylization, not text-to-image, and seems to be causing an OSError.
+# For full Stable Diffusion text-to-image, you might need diffusers library instead:
+!pip install diffusers
+from diffusers import StableDiffusionPipeline
+
+# Load pipeline (requires Hugging Face token if needed, but many are public)
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
+pipe = pipe.to("cpu")  # Use CPU
+prompt = "A futuristic city at sunset with flying cars"
+image = pipe(prompt).images[0]  # Generates one image
+image.save("generated_image.png")
+image.show()  # In Colab, this displays the image
+from diffusers import StableDiffusionPipeline
+
+# Load pipeline (requires Hugging Face token if needed, but many are public)
+# This assumes the model "CompVis/stable-diffusion-v1-4" was intended for this task.
+# The pip install diffusers has already been executed successfully in a previous step.
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
+pipe = pipe.to("cpu")  # Use CPU
+
+prompt = "A highly detailed photorealistic image of a cat wearing a top hat, intricate details, cinematic lighting"
+image = pipe(prompt).images[0]  # Generates one image
+image.show()  # Display the image
